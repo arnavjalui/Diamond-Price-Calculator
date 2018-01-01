@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/view"
+        android:orientation="vertical"
+        tools:context="ml.arnavjalui.test.MainActivity">
+
+        <TextView
+            android:id="@+id/hello"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Diamond Price Calculator"
+            android:textAlignment="center"    />
+
+        <EditText
+            android:id="@+id/rapo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:layout_gravity="center"
+            android:hint="Rapaport Price"
+            android:inputType="number"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/usd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:hint="USD"
+            android:textAlignment="center"
+            android:inputType="numberDecimal"/>
+
+        <EditText
+            android:id="@+id/carat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:hint="Carat Wt."
+            android:textAlignment="center"
+            android:inputType="numberDecimal"/>
+
+        <EditText
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:hint="Back %"
+            android:textAlignment="center"
+            android:inputType="numberDecimal"/>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:text="Get Price" />
+
+        <TextView
+            android:id="@+id/diamPrice"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:text="@string/rs00"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="40dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/diamPricePerCarat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:text="" />
+
+    </LinearLayout>
+
+
+</ScrollView>
+
+
