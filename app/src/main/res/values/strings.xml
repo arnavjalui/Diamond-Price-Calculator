@@ -2,4 +2,5 @@
     <string name="app_name">Diamond Calculator</string>
     <string name="rs00">\u20B9 0.0</string>
     <string name="screenshot">Take Screenshot</string>
+    <string name="rs00pc">\u20B9 0.0/carat</string>
 </resources>

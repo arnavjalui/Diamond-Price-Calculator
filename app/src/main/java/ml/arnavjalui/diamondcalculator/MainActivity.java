@@ -1,12 +1,13 @@
 package ml.arnavjalui.diamondcalculator;
 
-import android.content.Intent;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,78 +23,122 @@ public class MainActivity extends AppCompatActivity {
 
     EditText rapo,usd,carat,back;
     Button btn, takeSS;
-    TextView diamPrice;
+    TextView diamPrice,diamPricePerCarat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         btn = (Button) findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                calcPrice();
+                validateFields();
             }
         });
-
 
         takeSS = (Button) findViewById(R.id.takeSS);
         takeSS.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                takeScreenshot();
+                ssButtonPressed();
             }
         });
-
-
     }
 
-    public void calcPrice() {
-        // TODO: Check if 4 input fields are empty(Toast if yes:Calculate if no)
-        // TODO: Back % not more than 100
-        // TODO: Add menu for developer info and disclaimer
+    public void validateFields() {
+        String a,b,c,d;
         /*Get rapo rate*/
         rapo = (EditText) findViewById(R.id.rapo);
-        String a = rapo.getText().toString();
-        Double rapo = Double.parseDouble(a);
-
+        a = rapo.getText().toString();
         /*Get USD*/
         usd = (EditText) findViewById(R.id.usd);
-        a = usd.getText().toString();
-        Double usd = Double.parseDouble(a);
-
+        b = usd.getText().toString();
         /*Get Carat*/
         carat = (EditText) findViewById(R.id.carat);
-        a = carat.getText().toString();
-        Double carat = Double.parseDouble(a);
-
+        c = carat.getText().toString();
         /*Get Back Rate*/
         back = (EditText) findViewById(R.id.back);
-        a = back.getText().toString();
-        Double back= Double.parseDouble(a);
+        d = back.getText().toString();
 
+        if (a.matches("") || b.matches("") || c.matches("") || d.matches("")) {
+            Toast.makeText(this, "Please fill all inputs", Toast.LENGTH_LONG).show();
+
+            /*Show diamond price*/
+            diamPrice = (TextView) findViewById(R.id.diamPrice);
+            diamPrice.setText(R.string.rs00);
+            /*Show diamond price per carat*/
+            diamPricePerCarat = (TextView) findViewById(R.id.diamPricePerCarat);
+            diamPricePerCarat.setText(R.string.rs00pc);
+
+        } else {
+            Double rapo = Double.parseDouble(a);
+            Double usd = Double.parseDouble(b);
+            Double carat = Double.parseDouble(c);
+            Double back= Double.parseDouble(d);
+            if (back > 100) {
+                Toast.makeText(this, "Back should be less than 100%", Toast.LENGTH_LONG).show();
+
+                /*Show diamond price*/
+                diamPrice = (TextView) findViewById(R.id.diamPrice);
+                diamPrice.setText(R.string.rs00);
+                /*Show diamond price per carat*/
+                diamPricePerCarat = (TextView) findViewById(R.id.diamPricePerCarat);
+                diamPricePerCarat.setText(R.string.rs00pc);
+            } else {
+                calcPrice(rapo, usd, carat, back);
+            }
+        }
+    }
+
+    public void calcPrice(Double rapo, Double usd, Double carat, Double back) {
+        // TODO: Add menu item for developer info and disclaimer
+        // TODO: Add menu item for sharing app
 
         Double price = rapo * usd * carat;
         Double discPrice = price * (100-back) / 100;
-
-
-        Log.v("Price is ", "Rs. "+ discPrice);
+        Double pricePerCarat = discPrice / carat;
 
         /*Round off the discPrice to 2 decimal places*/
         DecimalFormat df = new DecimalFormat("#.##");
         discPrice = Double.valueOf(df.format(discPrice));
+        pricePerCarat = Double.valueOf(df.format(pricePerCarat));
 
         /*Show diamond price*/
         diamPrice = (TextView) findViewById(R.id.diamPrice);
         diamPrice.setText("\u20B9 " + discPrice);
+        /*Show diamond price per carat*/
+        diamPricePerCarat = (TextView) findViewById(R.id.diamPricePerCarat);
+        diamPricePerCarat.setText("\u20B9 " + pricePerCarat + "/carat");
+
     }
 
+    private void ssButtonPressed() {
+        int permissionCheck = ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permissionCheck!= PackageManager.PERMISSION_GRANTED) {
+            /*Permission not available*/
+            /*Check if permission can be requested*/
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                /*Request Permission*/
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 786);
+            } else {
+                /*Cannot request permission*/
+                Toast.makeText(MainActivity.this, "Permission not available", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            /*Permission available*/
+            takeScreenshot();
+        }
+    }
 
     private void takeScreenshot() {
+        /*Capture screenshot*/
         Date now = new Date();
         android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
-
         try {
             // image naming and path  to include sd card  appending name you choose for file
             String mPath = Environment.getExternalStorageDirectory().toString() + "/Pictures/Screenshots/" + now + ".jpg";
-
             // create bitmap screen capture
             View v1 = getWindow().getDecorView().getRootView();
             v1.setDrawingCacheEnabled(true);
@@ -107,20 +152,28 @@ public class MainActivity extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
             outputStream.flush();
             outputStream.close();
-
+            /*Screenshot capture success*/
             Toast.makeText(MainActivity.this, "Screenshot Captured", Toast.LENGTH_SHORT).show();
-            openScreenshot(imageFile);
         } catch (Throwable e) {
-            // Several error may come out with file handling or DOM
+            /*Screenshot error*/
             e.printStackTrace();
         }
     }
 
-    private void openScreenshot(File imageFile) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        Uri uri = Uri.fromFile(imageFile);
-        intent.setDataAndType(uri, "image/*");
-        startActivity(intent);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 786: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    /*Permission granted*/
+                    takeScreenshot();
+                } else {
+                    /*Permission denied*/
+                    Toast.makeText(this, "File access required. Please ALLOW permission.", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+        }
     }
 }
