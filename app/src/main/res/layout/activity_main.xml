@@ -77,6 +77,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_gravity="center"
+            android:textColor="#fff"
+            android:background="@color/colorPrimaryDark"
             android:text="Get Price" />
 
         <TextView
@@ -102,9 +104,19 @@
             android:layout_gravity="center"
             android:text="" />
 
+        <Button
+            android:id="@+id/takeSS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5sp"
+            android:layout_marginRight="5sp"
+            android:background="@android:color/holo_green_dark"
+            android:text="@string/screenshot"
+            android:textColor="#fff" />
+
     </LinearLayout>
 
 
+
+
 </ScrollView>
-
-

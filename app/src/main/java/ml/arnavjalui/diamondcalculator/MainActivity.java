@@ -1,5 +1,9 @@
 package ml.arnavjalui.diamondcalculator;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,13 +11,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.DecimalFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText rapo,usd,carat,back;
-    Button btn;
+    Button btn, takeSS;
     TextView diamPrice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +31,14 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 calcPrice();
+            }
+        });
+
+
+        takeSS = (Button) findViewById(R.id.takeSS);
+        takeSS.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                takeScreenshot();
             }
         });
 
@@ -67,5 +83,44 @@ public class MainActivity extends AppCompatActivity {
         /*Show diamond price*/
         diamPrice = (TextView) findViewById(R.id.diamPrice);
         diamPrice.setText("\u20B9 " + discPrice);
+    }
+
+
+    private void takeScreenshot() {
+        Date now = new Date();
+        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+
+        try {
+            // image naming and path  to include sd card  appending name you choose for file
+            String mPath = Environment.getExternalStorageDirectory().toString() + "/Pictures/Screenshots/" + now + ".jpg";
+
+            // create bitmap screen capture
+            View v1 = getWindow().getDecorView().getRootView();
+            v1.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+            v1.setDrawingCacheEnabled(false);
+
+            File imageFile = new File(mPath);
+
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            int quality = 100;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            outputStream.flush();
+            outputStream.close();
+
+            Toast.makeText(MainActivity.this, "Screenshot Captured", Toast.LENGTH_SHORT).show();
+            openScreenshot(imageFile);
+        } catch (Throwable e) {
+            // Several error may come out with file handling or DOM
+            e.printStackTrace();
+        }
+    }
+
+    private void openScreenshot(File imageFile) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        Uri uri = Uri.fromFile(imageFile);
+        intent.setDataAndType(uri, "image/*");
+        startActivity(intent);
     }
 }
