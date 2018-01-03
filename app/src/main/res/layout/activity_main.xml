@@ -6,17 +6,27 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/view"
+        android:id="@+id/view_outer_relative"
         android:orientation="vertical"
         tools:context="ml.arnavjalui.test.MainActivity">
 
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/view_inner_linear"
+            android:orientation="vertical"
+            tools:context="ml.arnavjalui.test.MainActivity">
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/rapo_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -38,6 +48,7 @@
 
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/usd_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -45,18 +56,21 @@
                 android:id="@+id/usd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/diamPrice"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:layout_marginTop="64dp"
+                android:layout_toEndOf="@+id/button"
+                android:layout_toRightOf="@+id/button"
                 android:ems="10"
+                android:gravity="center"
                 android:hint="USD"
-                android:textAlignment="center"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal"
+                android:textAlignment="center" />
 
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/carat_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -76,6 +90,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/back_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -128,20 +143,42 @@
             android:layout_marginTop="10dp"
             android:text="@string/rs00pc" />
 
-        <Button
-            android:id="@+id/takeSS"
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5sp"
-            android:layout_marginLeft="5sp"
-            android:layout_marginRight="5sp"
-            android:background="@android:color/holo_green_dark"
-            android:text="@string/screenshot"
-            android:textColor="#fff" />
+            android:layout_alignParentBottom="true"
+            android:weightSum="1.0">
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/takeSS"
+                android:layout_alignParentBottom="true"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5sp"
+                android:layout_marginLeft="5sp"
+                android:layout_marginRight="5sp"
+                android:background="@android:color/holo_green_dark"
+                android:text="@string/screenshot"
+                android:textColor="#fff"
+                android:layout_weight=".5"/>
+            <Button
+                android:id="@+id/copyBtn"
+                android:layout_alignParentBottom="true"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5sp"
+                android:layout_marginLeft="5sp"
+                android:layout_marginRight="5sp"
+                android:background="@android:color/holo_green_dark"
+                android:text="@string/copy"
+                android:textColor="#fff"
+                android:layout_weight=".5"/>
+
+        </LinearLayout>
 
 
-
+    </RelativeLayout>
 
 </ScrollView>

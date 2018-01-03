@@ -1,6 +1,8 @@
 package ml.arnavjalui.diamondcalculator;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Environment;
@@ -8,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,8 +25,9 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
     EditText rapo,usd,carat,back;
-    Button btn, takeSS;
+    Button btn, takeSS, copyBtn;
     TextView diamPrice,diamPricePerCarat;
+    Double discPrice=0.0, pricePerCarat=0.0, rapoRate, usdRate, caratWt, backPc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
         takeSS.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ssButtonPressed();
+            }
+        });
+
+        copyBtn = (Button) findViewById(R.id.copyBtn);
+        copyBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                copyBtnPressed();
             }
         });
     }
@@ -61,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (a.matches("") || b.matches("") || c.matches("") || d.matches("")) {
             Toast.makeText(this, "Please fill all inputs", Toast.LENGTH_LONG).show();
-
+            discPrice=0.0;
+            pricePerCarat=0.0;
             /*Show diamond price*/
             diamPrice = (TextView) findViewById(R.id.diamPrice);
             diamPrice.setText(R.string.rs00);
@@ -70,13 +82,16 @@ public class MainActivity extends AppCompatActivity {
             diamPricePerCarat.setText(R.string.rs00pc);
 
         } else {
-            Double rapo = Double.parseDouble(a);
-            Double usd = Double.parseDouble(b);
-            Double carat = Double.parseDouble(c);
-            Double back= Double.parseDouble(d);
-            if (back > 100) {
+            rapoRate = Double.parseDouble(a);
+            usdRate = Double.parseDouble(b);
+            caratWt = Double.parseDouble(c);
+            backPc = Double.parseDouble(d);
+            discPrice=0.0;
+            pricePerCarat=0.0;
+            if (backPc > 100) {
                 Toast.makeText(this, "Back should be less than 100%", Toast.LENGTH_LONG).show();
-
+                discPrice=0.0;
+                pricePerCarat=0.0;
                 /*Show diamond price*/
                 diamPrice = (TextView) findViewById(R.id.diamPrice);
                 diamPrice.setText(R.string.rs00);
@@ -84,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 diamPricePerCarat = (TextView) findViewById(R.id.diamPricePerCarat);
                 diamPricePerCarat.setText(R.string.rs00pc);
             } else {
-                calcPrice(rapo, usd, carat, back);
+                calcPrice(rapoRate, usdRate, caratWt, backPc);
             }
         }
     }
@@ -94,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
         // TODO: Add menu item for sharing app
 
         Double price = rapo * usd * carat;
-        Double discPrice = price * (100-back) / 100;
-        Double pricePerCarat = discPrice / carat;
+        discPrice = price * (100-back) / 100;
+        pricePerCarat = discPrice / carat;
 
         /*Round off the discPrice to 2 decimal places*/
         DecimalFormat df = new DecimalFormat("#.##");
@@ -174,6 +189,24 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return;
             }
+        }
+    }
+
+    private void copyBtnPressed() {
+        if (discPrice==0.0 || pricePerCarat==0.0) {
+            Toast.makeText(this, "No calculation performed", Toast.LENGTH_SHORT).show();
+        } else {
+            String clpdt = "Rapaport Price: " + rapoRate + "\n";
+            clpdt += "USD Rate: " + usdRate + "\n";
+            clpdt += "Carat Wt.: " + caratWt + "\n";
+            clpdt += "Back(Discount): " + backPc + "%\n\n";
+            clpdt += "Price: \u20B9" + discPrice + "/-\n";
+            clpdt += "(\u20B9" + pricePerCarat + "/- per carat)";
+
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("label", clpdt);
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show();
         }
     }
 }
