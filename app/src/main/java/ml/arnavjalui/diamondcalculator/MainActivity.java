@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn, takeSS, copyBtn;
     TextView diamPrice, diamPricePerCarat;
     Double discPrice = 0.0, pricePerCarat = 0.0, rapoRate, usdRate, caratWt, backPc;
+    LinearLayout buttonLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,59 @@ public class MainActivity extends AppCompatActivity {
                 validateFields();
             }
         });
+
+        rapo = findViewById(R.id.rapo);
+        usd = findViewById(R.id.usd);
+        carat = findViewById(R.id.carat);
+        back = findViewById(R.id.back);
+        buttonLinearLayout = findViewById(R.id.buttonLinearLayout);
+
+
+        rapo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    buttonLinearLayout.setVisibility(View.GONE);
+                } else {
+                    buttonLinearLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
+        usd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    buttonLinearLayout.setVisibility(View.GONE);
+                } else {
+                    buttonLinearLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        carat.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    buttonLinearLayout.setVisibility(View.GONE);
+                } else {
+                    buttonLinearLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        back.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    buttonLinearLayout.setVisibility(View.GONE);
+                } else {
+                    buttonLinearLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
 
         takeSS = findViewById(R.id.takeSS);
         takeSS.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 copyBtnPressed();
             }
         });
+
     }
 
     public void validateFields() {
