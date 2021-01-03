@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:id="@+id/view_outer_relative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:context="ml.arnavjalui.test.MainActivity">
 
-        <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
+
             android:id="@+id/view_inner_linear"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:context="ml.arnavjalui.test.MainActivity">
+            android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/rapo_box"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/rapo"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="12dp"
+                    android:layout_marginHorizontal="24dp"
                     android:ems="10"
                     android:gravity="center"
                     android:hint="@string/rapaport_price"
@@ -43,17 +45,19 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/usd_box"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/usd"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+
                     android:layout_below="@+id/diamPrice"
                     android:layout_gravity="center"
                     android:layout_margin="12dp"
+                    android:layout_marginHorizontal="24dp"
                     android:layout_toEndOf="@+id/button"
                     android:ems="10"
                     android:gravity="center"
@@ -65,16 +69,17 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/carat_box"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/carat"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="12dp"
+                    android:layout_marginHorizontal="24dp"
                     android:ems="10"
                     android:gravity="center"
                     android:hint="@string/carat_wt"
@@ -85,16 +90,17 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/back_box"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/back"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="12dp"
+                    android:layout_marginHorizontal="24dp"
                     android:ems="10"
                     android:gravity="center"
                     android:hint="@string/back"
@@ -109,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="12dp"
-                android:background="@color/green_700"
+                android:backgroundTint="@color/green_700"
                 android:text="@string/get_price"
                 android:textColor="@color/white" />
 
@@ -122,7 +128,7 @@
                 android:gravity="center_horizontal"
                 android:text="@string/rs00"
                 android:textAlignment="center"
-                android:textSize="40sp"
+                android:textSize="28sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -139,12 +145,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:weightSum="1.0">
+            android:visibility="visible">
 
             <Button
                 android:id="@+id/takeSS"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
+                android:layout_margin="12dp"
                 android:layout_weight=".5"
                 android:backgroundTint="@color/green_700"
                 android:text="@string/screenshot"
@@ -154,6 +161,7 @@
                 android:id="@+id/copyBtn"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
+                android:layout_margin="12dp"
                 android:layout_weight=".5"
                 android:backgroundTint="@color/green_700"
                 android:text="@string/copy"
