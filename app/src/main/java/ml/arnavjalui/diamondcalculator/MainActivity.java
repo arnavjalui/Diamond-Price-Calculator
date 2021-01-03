@@ -25,10 +25,11 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText rapo,usd,carat,back;
+    EditText rapo, usd, carat, back;
     Button btn, takeSS, copyBtn;
-    TextView diamPrice,diamPricePerCarat;
-    Double discPrice=0.0, pricePerCarat=0.0, rapoRate, usdRate, caratWt, backPc;
+    TextView diamPrice, diamPricePerCarat;
+    Double discPrice = 0.0, pricePerCarat = 0.0, rapoRate, usdRate, caratWt, backPc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,15 +58,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void validateFields() {
-        String a,b,c,d;
+        String a, b, c, d;
         /*Get rapo rate*/
         rapo = findViewById(R.id.rapo);
         a = rapo.getText().toString();
         /*Get USD*/
-        usd =  findViewById(R.id.usd);
+        usd = findViewById(R.id.usd);
         b = usd.getText().toString();
         /*Get Carat*/
-        carat =  findViewById(R.id.carat);
+        carat = findViewById(R.id.carat);
         c = carat.getText().toString();
         /*Get Back Rate*/
         back = findViewById(R.id.back);
@@ -73,13 +74,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (a.matches("") || b.matches("") || c.matches("") || d.matches("")) {
             Toast.makeText(this, "Please fill all inputs", Toast.LENGTH_LONG).show();
-            discPrice=0.0;
-            pricePerCarat=0.0;
+            discPrice = 0.0;
+            pricePerCarat = 0.0;
             /*Show diamond price*/
             diamPrice = findViewById(R.id.diamPrice);
             diamPrice.setText(R.string.rs00);
             /*Show diamond price per carat*/
-            diamPricePerCarat =  findViewById(R.id.diamPricePerCarat);
+            diamPricePerCarat = findViewById(R.id.diamPricePerCarat);
             diamPricePerCarat.setText(R.string.rs00pc);
 
         } else {
@@ -87,12 +88,12 @@ public class MainActivity extends AppCompatActivity {
             usdRate = Double.parseDouble(b);
             caratWt = Double.parseDouble(c);
             backPc = Double.parseDouble(d);
-            discPrice=0.0;
-            pricePerCarat=0.0;
+            discPrice = 0.0;
+            pricePerCarat = 0.0;
             if (backPc > 100) {
                 Toast.makeText(this, "Back should be less than 100%", Toast.LENGTH_LONG).show();
-                discPrice=0.0;
-                pricePerCarat=0.0;
+                discPrice = 0.0;
+                pricePerCarat = 0.0;
                 /*Show diamond price*/
                 diamPrice = findViewById(R.id.diamPrice);
                 diamPrice.setText(R.string.rs00);
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO: Add menu item for sharing app
 
         double price = rapo * usd * carat;
-        discPrice = price * (100-back) / 100;
+        discPrice = price * (100 - back) / 100;
         pricePerCarat = discPrice / carat;
 
         /*Round off the discPrice to 2 decimal places*/
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         int permissionCheck = ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-        if (permissionCheck!= PackageManager.PERMISSION_GRANTED) {
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             /*Permission not available*/
             /*Check if permission can be requested*/
             if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -190,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void copyBtnPressed() {
-        if (discPrice==0.0 || pricePerCarat==0.0) {
+        if (discPrice == 0.0 || pricePerCarat == 0.0) {
             Toast.makeText(this, "No calculation performed", Toast.LENGTH_SHORT).show();
         } else {
             String clpdt = "Rapaport Price: " + rapoRate + "\n";
