@@ -4,4 +4,6 @@
     <string name="screenshot">Take Screenshot</string>
     <string name="rs00pc">\u20B9 0.0/carat</string>
     <string name="copy">Copy to clipboard</string>
+    <string name="back">Back %</string>
+    <string name="get_price">Get Price</string>
 </resources>
