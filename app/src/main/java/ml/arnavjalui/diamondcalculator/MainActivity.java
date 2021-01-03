@@ -5,12 +5,12 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,21 +33,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btn = (Button) findViewById(R.id.button);
+        btn = findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 validateFields();
             }
         });
 
-        takeSS = (Button) findViewById(R.id.takeSS);
+        takeSS = findViewById(R.id.takeSS);
         takeSS.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ssButtonPressed();
             }
         });
 
-        copyBtn = (Button) findViewById(R.id.copyBtn);
+        copyBtn = findViewById(R.id.copyBtn);
         copyBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 copyBtnPressed();
@@ -58,16 +58,16 @@ public class MainActivity extends AppCompatActivity {
     public void validateFields() {
         String a,b,c,d;
         /*Get rapo rate*/
-        rapo = (EditText) findViewById(R.id.rapo);
+        rapo = findViewById(R.id.rapo);
         a = rapo.getText().toString();
         /*Get USD*/
-        usd = (EditText) findViewById(R.id.usd);
+        usd =  findViewById(R.id.usd);
         b = usd.getText().toString();
         /*Get Carat*/
-        carat = (EditText) findViewById(R.id.carat);
+        carat =  findViewById(R.id.carat);
         c = carat.getText().toString();
         /*Get Back Rate*/
-        back = (EditText) findViewById(R.id.back);
+        back = findViewById(R.id.back);
         d = back.getText().toString();
 
         if (a.matches("") || b.matches("") || c.matches("") || d.matches("")) {
@@ -75,10 +75,10 @@ public class MainActivity extends AppCompatActivity {
             discPrice=0.0;
             pricePerCarat=0.0;
             /*Show diamond price*/
-            diamPrice = (TextView) findViewById(R.id.diamPrice);
+            diamPrice = findViewById(R.id.diamPrice);
             diamPrice.setText(R.string.rs00);
             /*Show diamond price per carat*/
-            diamPricePerCarat = (TextView) findViewById(R.id.diamPricePerCarat);
+            diamPricePerCarat =  findViewById(R.id.diamPricePerCarat);
             diamPricePerCarat.setText(R.string.rs00pc);
 
         } else {
@@ -93,10 +93,10 @@ public class MainActivity extends AppCompatActivity {
                 discPrice=0.0;
                 pricePerCarat=0.0;
                 /*Show diamond price*/
-                diamPrice = (TextView) findViewById(R.id.diamPrice);
+                diamPrice = findViewById(R.id.diamPrice);
                 diamPrice.setText(R.string.rs00);
                 /*Show diamond price per carat*/
-                diamPricePerCarat = (TextView) findViewById(R.id.diamPricePerCarat);
+                diamPricePerCarat = findViewById(R.id.diamPricePerCarat);
                 diamPricePerCarat.setText(R.string.rs00pc);
             } else {
                 calcPrice(rapoRate, usdRate, caratWt, backPc);
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO: Add menu item for developer info and disclaimer
         // TODO: Add menu item for sharing app
 
-        Double price = rapo * usd * carat;
+        double price = rapo * usd * carat;
         discPrice = price * (100-back) / 100;
         pricePerCarat = discPrice / carat;
 
@@ -118,11 +118,11 @@ public class MainActivity extends AppCompatActivity {
         pricePerCarat = Double.valueOf(df.format(pricePerCarat));
 
         /*Show diamond price*/
-        diamPrice = (TextView) findViewById(R.id.diamPrice);
-        diamPrice.setText("\u20B9 " + discPrice);
+        diamPrice = findViewById(R.id.diamPrice);
+        diamPrice.setText(String.format("₹ %s", discPrice));
         /*Show diamond price per carat*/
-        diamPricePerCarat = (TextView) findViewById(R.id.diamPricePerCarat);
-        diamPricePerCarat.setText("\u20B9 " + pricePerCarat + "/carat");
+        diamPricePerCarat = findViewById(R.id.diamPricePerCarat);
+        diamPricePerCarat.setText(String.format("₹ %s/carat", pricePerCarat));
 
     }
 
@@ -176,18 +176,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 786: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    /*Permission granted*/
-                    takeScreenshot();
-                } else {
-                    /*Permission denied*/
-                    Toast.makeText(this, "File access required. Please ALLOW permission.", Toast.LENGTH_LONG).show();
-                }
-                return;
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 786) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                /*Permission granted*/
+                takeScreenshot();
+            } else {
+                /*Permission denied*/
+                Toast.makeText(this, "File access required. Please ALLOW permission.", Toast.LENGTH_LONG).show();
             }
         }
     }
