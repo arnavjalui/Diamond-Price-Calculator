@@ -2,7 +2,6 @@ package com.kabirnayeem.diamondcalculator;
 
 import android.util.Log;
 
-
 import java.text.DecimalFormat;
 
 public class DiamondPriceModel {

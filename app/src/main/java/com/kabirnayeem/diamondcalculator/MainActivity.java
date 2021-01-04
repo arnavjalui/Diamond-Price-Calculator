@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     Double caratWt;
     Double backPc;
     DiamondPriceModel diamondPriceModel = new DiamondPriceModel();
+    String a, b, c, d;
 
     {
         discPrice = 0.0;
@@ -59,6 +60,17 @@ public class MainActivity extends AppCompatActivity {
         usd = findViewById(R.id.usd);
         carat = findViewById(R.id.carat);
         back = findViewById(R.id.back);
+        /*Get rapo rate*/
+        rapo = findViewById(R.id.rapo);
+        /*Get USD*/
+        usd = findViewById(R.id.usd);
+        b = usd.getText().toString();
+        /*Get Carat*/
+        carat = findViewById(R.id.carat);
+        c = carat.getText().toString();
+        /*Get Back Rate*/
+        back = findViewById(R.id.back);
+        d = back.getText().toString();
 
 
         takeSS = findViewById(R.id.takeSS);
@@ -78,19 +90,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void validateFields() {
-        String a, b, c, d;
-        /*Get rapo rate*/
-        rapo = findViewById(R.id.rapo);
+
         a = rapo.getText().toString();
-        /*Get USD*/
-        usd = findViewById(R.id.usd);
-        b = usd.getText().toString();
-        /*Get Carat*/
-        carat = findViewById(R.id.carat);
-        c = carat.getText().toString();
-        /*Get Back Rate*/
-        back = findViewById(R.id.back);
-        d = back.getText().toString();
 
         if (a.matches("") || b.matches("") || c.matches("") || d.matches("")) {
             Toast.makeText(this, "Please fill all inputs", Toast.LENGTH_LONG).show();
@@ -104,12 +105,13 @@ public class MainActivity extends AppCompatActivity {
             diamPricePerCarat.setText(R.string.rs00pc);
 
         } else {
-            rapoRate = Double.parseDouble(a);
-            usdRate = Double.parseDouble(b);
-            caratWt = Double.parseDouble(c);
-            backPc = Double.parseDouble(d);
+            diamondPriceModel.setRapoRate(Double.parseDouble(a));
+            diamondPriceModel.setUsdRate(Double.parseDouble(b));
+            diamondPriceModel.setCaratWt(Double.parseDouble(c));
+            diamondPriceModel.setBackPc(Double.parseDouble(d));
             discPrice = 0.0;
             pricePerCarat = 0.0;
+
             if (backPc > 100) {
                 Toast.makeText(this, "Back should be less than 100%", Toast.LENGTH_LONG).show();
                 discPrice = 0.0;
