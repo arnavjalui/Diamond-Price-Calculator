@@ -1,4 +1,4 @@
-package ml.arnavjalui.diamondcalculator;
+package com.kabirnayeem.diamondcalculator;
 
 import android.content.Context;
 

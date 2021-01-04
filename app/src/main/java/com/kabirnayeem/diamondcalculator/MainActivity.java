@@ -8,11 +8,9 @@ import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     Double usdRate;
     Double caratWt;
     Double backPc;
-    LinearLayout buttonLinearLayout;
 
     {
         discPrice = 0.0;
@@ -65,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         usd = findViewById(R.id.usd);
         carat = findViewById(R.id.carat);
         back = findViewById(R.id.back);
-        buttonLinearLayout = findViewById(R.id.buttonLinearLayout);
 
 
         takeSS = findViewById(R.id.takeSS);
