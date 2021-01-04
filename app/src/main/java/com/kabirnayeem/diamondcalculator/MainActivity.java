@@ -1,4 +1,4 @@
-package ml.arnavjalui.diamondcalculator;
+package com.kabirnayeem.diamondcalculator;
 
 import android.Manifest;
 import android.content.ClipData;
@@ -28,11 +28,26 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText rapo, usd, carat, back;
-    Button btn, takeSS, copyBtn;
-    TextView diamPrice, diamPricePerCarat;
-    Double discPrice = 0.0, pricePerCarat = 0.0, rapoRate, usdRate, caratWt, backPc;
+    EditText rapo;
+    EditText usd;
+    EditText carat;
+    EditText back;
+    Button btn;
+    Button takeSS;
+    Button copyBtn;
+    TextView diamPrice;
+    TextView diamPricePerCarat;
+    Double discPrice;
+    Double pricePerCarat = 0.0;
+    Double rapoRate;
+    Double usdRate;
+    Double caratWt;
+    Double backPc;
     LinearLayout buttonLinearLayout;
+
+    {
+        discPrice = 0.0;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,52 +66,6 @@ public class MainActivity extends AppCompatActivity {
         carat = findViewById(R.id.carat);
         back = findViewById(R.id.back);
         buttonLinearLayout = findViewById(R.id.buttonLinearLayout);
-
-
-        rapo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    buttonLinearLayout.setVisibility(View.GONE);
-                } else {
-                    buttonLinearLayout.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-
-        usd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    buttonLinearLayout.setVisibility(View.GONE);
-                } else {
-                    buttonLinearLayout.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        carat.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    buttonLinearLayout.setVisibility(View.GONE);
-                } else {
-                    buttonLinearLayout.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        back.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    buttonLinearLayout.setVisibility(View.GONE);
-                } else {
-                    buttonLinearLayout.setVisibility(View.VISIBLE);
-                }
-            }
-        });
 
 
         takeSS = findViewById(R.id.takeSS);
@@ -214,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
         try {
 
             // image naming and path  to include sd card  appending name you choose for file
-            String mPath = Environment.getExternalStorageDirectory().toString() + "/Pictures/Screenshots/" + now + ".jpg";
             // create bitmap screen capture
             View v1 = getWindow().getDecorView().getRootView();
             v1.setDrawingCacheEnabled(true);
