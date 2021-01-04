@@ -1,12 +1,7 @@
 package com.kabirnayeem.diamondcalculator;
 
 import android.Manifest;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,11 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.text.DecimalFormat;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Double usdRate;
     Double caratWt;
     Double backPc;
+    DiamondPriceModel diamondPriceModel = new DiamondPriceModel();
 
     {
         discPrice = 0.0;
@@ -52,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btn = findViewById(R.id.button);
+        diamPricePerCarat = findViewById(R.id.diamPricePerCarat);
+        diamPrice = findViewById(R.id.diamPrice);
+        diamPrice.setText(String.format("₹ %s", diamondPriceModel.getDiscPrice()));
+        diamPricePerCarat.setText(String.format("₹ %s/carat", diamondPriceModel.getPricePerCarat()));
+
+
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 validateFields();
@@ -74,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         copyBtn = findViewById(R.id.copyBtn);
         copyBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                copyBtnPressed();
+                Utils.copyResultToClipboard(diamondPriceModel, MainActivity.this);
             }
         });
 
@@ -124,32 +121,11 @@ public class MainActivity extends AppCompatActivity {
                 diamPricePerCarat = findViewById(R.id.diamPricePerCarat);
                 diamPricePerCarat.setText(R.string.rs00pc);
             } else {
-                calcPrice(rapoRate, usdRate, caratWt, backPc);
+                diamondPriceModel.calcPrice();
             }
         }
     }
 
-    public void calcPrice(Double rapo, Double usd, Double carat, Double back) {
-        // TODO: Add menu item for developer info and disclaimer
-        // TODO: Add menu item for sharing app
-
-        double price = rapo * usd * carat;
-        discPrice = price * (100 - back) / 100;
-        pricePerCarat = discPrice / carat;
-
-        /*Round off the discPrice to 2 decimal places*/
-        DecimalFormat df = new DecimalFormat("#.##");
-        discPrice = Double.valueOf(df.format(discPrice));
-        pricePerCarat = Double.valueOf(df.format(pricePerCarat));
-
-        /*Show diamond price*/
-        diamPrice = findViewById(R.id.diamPrice);
-        diamPrice.setText(String.format("₹ %s", discPrice));
-        /*Show diamond price per carat*/
-        diamPricePerCarat = findViewById(R.id.diamPricePerCarat);
-        diamPricePerCarat.setText(String.format("₹ %s/carat", pricePerCarat));
-
-    }
 
     private void ssButtonPressed() {
         int permissionCheck = ContextCompat.checkSelfPermission(MainActivity.this,
@@ -168,68 +144,21 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             /*Permission available*/
-            takeScreenshot();
+            Utils.takeScreenshot(MainActivity.this);
         }
     }
 
-    private void takeScreenshot() {
-        /*Capture screenshot*/
-        Date now = new Date();
-        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
-        try {
-
-            // image naming and path  to include sd card  appending name you choose for file
-            // create bitmap screen capture
-            View v1 = getWindow().getDecorView().getRootView();
-            v1.setDrawingCacheEnabled(true);
-            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
-            v1.setDrawingCacheEnabled(false);
-
-            ContextWrapper cw = new ContextWrapper(getApplicationContext());
-            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-            File imageFile = new File(directory, "UniqueFileName" + ".jpg");
-
-            FileOutputStream outputStream = new FileOutputStream(imageFile);
-            int quality = 100;
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            outputStream.flush();
-            outputStream.close();
-            /*Screenshot capture success*/
-            Toast.makeText(MainActivity.this, "Screenshot Captured", Toast.LENGTH_SHORT).show();
-        } catch (Throwable e) {
-            /*Screenshot error*/
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == 786) {// If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 /*Permission granted*/
-                takeScreenshot();
+                Utils.takeScreenshot(MainActivity.this);
             } else {
                 /*Permission denied*/
                 Toast.makeText(this, "File access required. Please ALLOW permission.", Toast.LENGTH_LONG).show();
             }
-        }
-    }
-
-    private void copyBtnPressed() {
-        if (discPrice == 0.0 || pricePerCarat == 0.0) {
-            Toast.makeText(this, "No calculation performed", Toast.LENGTH_SHORT).show();
-        } else {
-            String clpdt = "Rapaport Price: " + rapoRate + "\n";
-            clpdt += "USD Rate: " + usdRate + "\n";
-            clpdt += "Carat Wt.: " + caratWt + "\n";
-            clpdt += "Back(Discount): " + backPc + "%\n\n";
-            clpdt += "Price: \u20B9" + discPrice + "/-\n";
-            clpdt += "(\u20B9" + pricePerCarat + "/- per carat)";
-
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("label", clpdt);
-            clipboard.setPrimaryClip(clip);
-            Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show();
         }
     }
 }
