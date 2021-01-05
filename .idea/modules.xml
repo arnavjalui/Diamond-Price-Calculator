@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DiamondCalculator.iml" filepath="$PROJECT_DIR$/DiamondCalculator.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Diamond-Price-Calculator.iml" filepath="$PROJECT_DIR$/.idea/Diamond-Price-Calculator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Diamond-Price-Calculator.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Diamond-Price-Calculator.app.iml" />
     </modules>
   </component>
 </project>

@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">Diamond Calculator</string>
-    <string name="rs00">\u20B9 0.0</string>
-    <string name="screenshot">Take Screenshot</string>
-    <string name="rs00pc">\u20B9 0.0/carat</string>
-    <string name="copy">Copy to clipboard</string>
+    <string name="rs00">₹ 0.0</string>
+    <string name="screenshot">Screenshot</string>
+    <string name="rs00pc">₹ 0.0/carat</string>
+    <string name="copy">Clipboard</string>
+    <string name="back">Back %</string>
+    <string name="get_price">Get Price</string>
+    <string name="usd">USD</string>
+    <string name="carat_wt">Carat Wt.</string>
+    <string name="rapaport_price">Rapport Price</string>
 </resources>
