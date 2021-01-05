@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:layout_below="@+id/diamPrice"
+                    android:layout_below="@+id/resultPriceTextView"
                     android:layout_gravity="center"
                     android:layout_margin="12dp"
                     android:layout_marginHorizontal="24dp"
@@ -118,7 +118,7 @@
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/diamPrice"
+                android:id="@+id/resultPriceTextView"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -130,7 +130,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/diamPricePerCarat"
+                android:id="@+id/resultPricePerCaratTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

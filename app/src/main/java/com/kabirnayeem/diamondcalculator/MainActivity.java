@@ -1,117 +1,98 @@
 package com.kabirnayeem.diamondcalculator;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
-    EditText rapo;
-    EditText usd;
-    EditText carat;
-    EditText back;
+    EditText rapoTextField;
+    EditText usdTextField;
+    EditText caratTextField;
+    EditText backTextField;
     Button getPriceButton;
     Button takeScreenshotButton;
     Button copyToClipboardButton;
-    TextView diamPrice;
-    TextView diamPricePerCarat;
-    Double discPrice;
-    Double backPc;
-    DiamondPriceModel diamondPriceModel = new DiamondPriceModel();
-    String a, b, c, d;
-
-    {
-        discPrice = 0.0;
-    }
+    TextView resultPriceTextView;
+    TextView resultPricePerCaratTextView;
+    DiamondPriceModel diamondPriceModel;
+    double backPc;
+    double rapoRate = 0.0;
+    double usdRate = 0.0;
+    double caratWt = 0.0;
+    double back = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initViews();
-        
+
         getPriceButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 getPrice();
             }
         });
 
-        takeScreenshotButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Screenshot functionality to be added",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        copyToClipboardButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Utils.copyResultToClipboard(diamondPriceModel, MainActivity.this);
-            }
-        });
+        takeScreenshotButton.setVisibility(View.GONE);
+        copyToClipboardButton.setVisibility(View.GONE);
 
     }
 
     private void initViews() {
-        back = findViewById(R.id.back);
+        backTextField = findViewById(R.id.back);
         takeScreenshotButton = findViewById(R.id.takeSS);
         getPriceButton = findViewById(R.id.button);
-        diamPricePerCarat = findViewById(R.id.diamPricePerCarat);
-        diamPrice = findViewById(R.id.diamPrice);
-        rapo = findViewById(R.id.rapo);
-        diamPricePerCarat = findViewById(R.id.diamPricePerCarat);
-        usd = findViewById(R.id.usd);
-        carat = findViewById(R.id.carat);
-        back = findViewById(R.id.back);
-        rapo = findViewById(R.id.rapo);
-        diamPrice = findViewById(R.id.diamPrice);
-        usd = findViewById(R.id.usd);
+        resultPricePerCaratTextView = findViewById(R.id.resultPricePerCaratTextView);
+        resultPriceTextView = findViewById(R.id.resultPriceTextView);
+        rapoTextField = findViewById(R.id.rapo);
+        resultPricePerCaratTextView = findViewById(R.id.resultPricePerCaratTextView);
+        usdTextField = findViewById(R.id.usd);
+        caratTextField = findViewById(R.id.carat);
+        backTextField = findViewById(R.id.back);
+        rapoTextField = findViewById(R.id.rapo);
+        resultPriceTextView = findViewById(R.id.resultPriceTextView);
+        usdTextField = findViewById(R.id.usd);
         copyToClipboardButton = findViewById(R.id.copyBtn);
-        carat = findViewById(R.id.carat);
-        diamPrice = findViewById(R.id.diamPrice);
-        diamPricePerCarat = findViewById(R.id.diamPricePerCarat);
+        caratTextField = findViewById(R.id.carat);
+        resultPriceTextView = findViewById(R.id.resultPriceTextView);
+        resultPricePerCaratTextView = findViewById(R.id.resultPricePerCaratTextView);
     }
 
     public void getPrice() {
 
-        a = rapo.getText().toString();
-        b = usd.getText().toString();
-        c = carat.getText().toString();
-        d = back.getText().toString();
 
-        diamPrice.setText(String.format("₹ %s", diamondPriceModel.getDiscPrice()));
-        diamPricePerCarat.setText(String.format("₹ %s/carat", diamondPriceModel.getPricePerCarat()));
+        String rapoRateText = rapoTextField.getText().toString();
+        String usdText = usdTextField.getText().toString();
+        String caratText = caratTextField.getText().toString();
+        String backText = backTextField.getText().toString();
 
-        if (a.matches("") || b.matches("") || c.matches("") || d.matches("")) {
-            Toast.makeText(this, "Please fill all inputs", Toast.LENGTH_LONG).show();
-            diamondPriceModel.setDiscPrice(0.0);
-            diamondPriceModel.setPricePerCarat(0.0);
-            diamPrice.setText(R.string.rs00);
-            diamPricePerCarat.setText(R.string.rs00pc);
-
-        } else {
-            diamondPriceModel.setRapoRate(Double.parseDouble(a));
-            diamondPriceModel.setUsdRate(Double.parseDouble(b));
-            diamondPriceModel.setCaratWt(Double.parseDouble(c));
-            diamondPriceModel.setBackPc(Double.parseDouble(d));
-            diamondPriceModel.setDiscPrice(0.0);
-            diamondPriceModel.setPricePerCarat(0.0);
-
-            if (backPc > 100) {
-                Toast.makeText(this, "Back should be less than 100%", Toast.LENGTH_LONG).show();
-                diamondPriceModel.setDiscPrice(0.0);
-                diamondPriceModel.setPricePerCarat(0.0);
-                diamPrice.setText(R.string.rs00);
-                diamPricePerCarat.setText(R.string.rs00pc);
-            } else {
-                diamondPriceModel.calcPrice();
-            }
+        try {
+            rapoRate = Double.parseDouble(rapoRateText);
+            usdRate = Double.parseDouble(usdText);
+            caratWt = Double.parseDouble(caratText);
+            back = Double.parseDouble(backText);
+        } catch (Exception exception) {
+            Log.d(TAG, "getPrice: " + exception);
         }
-    }
 
+        Log.d(TAG, String.format("getPrice: \n raporRateText: %s" +
+                        "\n usdRate %s \n" +
+                        "caratWt %s \n back %s",
+                rapoRate, usdRate, caratWt, backTextField));
+
+        diamondPriceModel = new DiamondPriceModel(rapoRate, usdRate, caratWt, backPc);
+        diamondPriceModel.calcPrice();
+        resultPriceTextView.setText(String.format("₹ %s", diamondPriceModel.getDiscPrice()));
+        resultPricePerCaratTextView.setText(String.format("₹ %s", diamondPriceModel.getPricePerCarat()));
+
+        Log.d(TAG, "getPrice: \n" + diamondPriceModel.toString());
+    }
 }
+

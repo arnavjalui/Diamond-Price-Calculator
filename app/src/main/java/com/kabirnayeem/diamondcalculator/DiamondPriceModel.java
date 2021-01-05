@@ -18,15 +18,11 @@ public class DiamondPriceModel {
     public DiamondPriceModel(double rapoRate,
                              double usdRate,
                              double caratWt,
-                             double backPc,
-                             double discPrice,
-                             double pricePerCarat) {
+                             double backPc) {
         this.rapoRate = rapoRate;
         this.usdRate = usdRate;
         this.caratWt = caratWt;
         this.backPc = backPc;
-        this.discPrice = discPrice;
-        this.pricePerCarat = pricePerCarat;
     }
 
     public DiamondPriceModel() {
@@ -34,9 +30,11 @@ public class DiamondPriceModel {
 
     public void calcPrice() {
         double price = rapoRate * usdRate * caratWt;
+        Log.d(TAG, "calcPrice: price is" + price);
         discPrice = price * (100 - backPc) / 100;
+        Log.d(TAG, "calcPrice: discPrice is" + discPrice);
         pricePerCarat = discPrice / caratWt;
-
+        Log.d(TAG, "calcPrice: pricePerCarat" + pricePerCarat);
         DecimalFormat df = new DecimalFormat("#.##");
         discPrice = Double.parseDouble(df.format(discPrice));
         pricePerCarat = Double.parseDouble(df.format(pricePerCarat));
