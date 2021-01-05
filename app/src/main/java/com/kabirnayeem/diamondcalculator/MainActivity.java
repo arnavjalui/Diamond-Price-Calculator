@@ -46,33 +46,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        backTextField = findViewById(R.id.back);
+        //  Initialises all the views (Proposed by John Shivers)
+
+        // Initialises button
         takeScreenshotButton = findViewById(R.id.takeSS);
         getPriceButton = findViewById(R.id.button);
-        resultPricePerCaratTextView = findViewById(R.id.resultPricePerCaratTextView);
-        resultPriceTextView = findViewById(R.id.resultPriceTextView);
-        rapoTextField = findViewById(R.id.rapo);
-        resultPricePerCaratTextView = findViewById(R.id.resultPricePerCaratTextView);
-        usdTextField = findViewById(R.id.usd);
-        caratTextField = findViewById(R.id.carat);
-        backTextField = findViewById(R.id.back);
-        rapoTextField = findViewById(R.id.rapo);
-        resultPriceTextView = findViewById(R.id.resultPriceTextView);
-        usdTextField = findViewById(R.id.usd);
         copyToClipboardButton = findViewById(R.id.copyBtn);
+
+        // Initialises text fields
         caratTextField = findViewById(R.id.carat);
+        rapoTextField = findViewById(R.id.rapo);
+        backTextField = findViewById(R.id.back);
+        usdTextField = findViewById(R.id.usd);
+
+        // Initialises text views
         resultPriceTextView = findViewById(R.id.resultPriceTextView);
         resultPricePerCaratTextView = findViewById(R.id.resultPricePerCaratTextView);
     }
 
     public void getPrice() {
+        /* After the get price button is pressed
+        It calculates the price
+        It then manipulates the view to show the new found price
+        on the screen
+         */
 
-
+        // Gets the string text from the edit text fields
         String rapoRateText = rapoTextField.getText().toString();
         String usdText = usdTextField.getText().toString();
         String caratText = caratTextField.getText().toString();
         String backText = backTextField.getText().toString();
 
+        // Makes the String text into double to pass them to the DiamondPriceModel class
+        // for data manipulation, analysis and findings.
         try {
             rapoRate = Double.parseDouble(rapoRateText);
             usdRate = Double.parseDouble(usdText);
@@ -82,17 +88,22 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "getPrice: " + exception);
         }
 
-        Log.d(TAG, String.format("getPrice: \n raporRateText: %s" +
-                        "\n usdRate %s \n" +
-                        "caratWt %s \n back %s",
-                rapoRate, usdRate, caratWt, backTextField));
-
+        // Creates a new instance of [DiamondPriceModel] which is provided with
+        // Rapo Rate, USD conversion rate, Carat per watt and Back Price.
         diamondPriceModel = new DiamondPriceModel(rapoRate, usdRate, caratWt, backPc);
+
+        // Calculates the price
         diamondPriceModel.calcPrice();
+
+        // Shows the new found value on screen
+        manipulateViews();
+
+    }
+
+    private void manipulateViews() {
+        // Manipulates view to show certain text on the screen
         resultPriceTextView.setText(String.format("₹ %s", diamondPriceModel.getDiscPrice()));
         resultPricePerCaratTextView.setText(String.format("₹ %s", diamondPriceModel.getPricePerCarat()));
-
-        Log.d(TAG, "getPrice: \n" + diamondPriceModel.toString());
     }
 }
 

@@ -1,17 +1,14 @@
 package com.kabirnayeem.diamondcalculator;
 
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.graphics.Bitmap;
 import android.text.ClipboardManager;
-import android.view.View;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Date;
-
 public class Utils {
+
+    /* Utility class that implements static methods.
+        Can be called directly using class name. */
+
     public static void takeScreenshot(Context context) {
 
 //        /*Capture screenshot*/
@@ -20,8 +17,8 @@ public class Utils {
 //        try {
 
 
-            // image naming and path  to include sd card  appending name you choose for file
-            // create bitmap screen capture
+        // image naming and path  to include sd card  appending name you choose for file
+        // create bitmap screen capture
 //            View v1 = getWindow().getDecorView().getRootView();
 //            v1.setDrawingCacheEnabled(true);
 //            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
